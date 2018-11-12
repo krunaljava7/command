@@ -1,0 +1,35 @@
+
+Step 1: Execute the below command to sync your local code with feature branch
+git checkout feature/Krunal_Service_Checkin_04_Dec
+
+Step 2: Merge your code or Implement the changes in local code
+
+Step 3:  Add newly created file using below command 
+git add *
+(use git reset if you want to undo changes.  it will unstage all due changes)
+
+Step 4: Check the status which will show you the modification
+git status
+
+Step 5: Commit the changes in local repository
+git commit –a
+git commit -am "Git check-in for migrated Service" (with message)
+
+Step 6: Push local repository changes to feature branch
+git push
+
+Step 7: Create pull request and assign multiple lead as reviewer, Once the lead approves the Pull request the changes will be merged to Appropriate branch from your feature branch.
+
+GIT checking done for below migrated services
+
+-------------------------------(Other Command)------------------------
+git fetch
+rm -f ./.git/index.lock
+git config --list
+git config --global user.name "Naik, Krunal : client"
+git config --global user.email "Krunal.Naik@client.co.uk"
+git config --global http.proxy http://username:password@proxies.img.intranet:8080
+
+
+git log --all -- '**/filename.extension'
+
