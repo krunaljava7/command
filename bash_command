@@ -1,0 +1,38 @@
+
+
+# mvn deploy:deploy-file -DgroupId=com -DartifactId=naik -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true -Durl=file://C:\KrunaKruti -DrepositoryId=nexusid -Dfile=http-client_test.jar
+
+# mvn deploy:deploy-file -DgroupId=com -DartifactId=naik -Dversion=1.0 -Dpackaging=jar -DgeneratePom=true -Durl=file://C:\KrunaKruti -DrepositoryId=nexusid -Dfile=http-client_test.jar -Dfiles=application.properties -Dclassifiers=property -Dtypes=properties
+
+ 
+#i=0
+#while read line
+#do
+#    array[ $i ]="$line"        
+#    (( i++ ))
+#done < <(ls -ls)
+propertyName=""
+classifiersname=""
+typesname=""
+
+#filename="${filename%.*}"
+
+array=(*.properties)
+for i in "${array[@]}"
+do
+   #echo "$i"
+   propertyName="$propertyName$i,"
+   classifiersname="$classifiersname${i%.*},"
+   typesname="$typesname properties,"
+   # or do whatever with individual element of the array
+done
+
+echo ${#array[@]}
+echo $propertyName
+echo $classifiersname
+echo $typesname
+arrlength=${#propertyName}
+echo $arrlength
+arrlength=$arrlength-1
+echo $arrlength
+#b=${propertyName:0:46}
