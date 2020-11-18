@@ -13,7 +13,7 @@ mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o HTTPSConnector -n explicitlyS
 mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o HTTPSConnector -n clientAuth -v true
   
 mqsistop BEMNG_LOCAL 
-mqsisetdbparms BEMNG_LOCAL -n BEMNG_Keystore::password -u ignore -p 12345
+mqsisetdbparms BEMNG_LOCAL -n BEMNG_Keystore::password -u ignore -p 1234567890
 mqsistart BEMNG_LOCAL 
  
 mqsireportproperties BEMNG_LOCAL -e RGS_GATEWAY -o ComIbmJVMManager -r
@@ -36,7 +36,35 @@ ps -ef |grep bip
 dspmq 
 
 ------------------------------------
+-	 Check Policy Bindings:
 
 mqsireportproperties BEMNG_LOCAL -c PolicySets -o AllReportableEntityNames -r
 mqsireportproperties BEMNG_LOCAL -c PolicySetBindings -o AllReportableEntityNames -r
 mqsireportproperties BEMNG_LOCAL -c PolicySetBindings -o POC_PolicyBindings -n ws-security -p C:\Users\G01148539\Desktop\IIM_10_Migration\WS\pocicyBinding.xml
+
+-	Display configurable services
+
+    mqsireportproperties <BROKER_NAME> -c AllTypes -o AllReportableEntityNames -r
+
+-	Display Security Identity/ Check ODBC usernames
+
+    mqsireportdbparms <BROKER_NAME> -n "*"
+
+----- Backend Type -----
+mq
+- all queues(local,alias)
+database
+- jdbc service 
+- odbc service
+java service
+- jar
+https internal
+- certificate and SSL configurations
+- bar properties file
+https external
+- certificate and SSL configurations
+- bar properties file
+- policy set
+- host file
+- enable firewall
+load balancer
