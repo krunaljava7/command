@@ -1,0 +1,42 @@
+mqsichangebroker BEMNG_LOCAL -b default
+
+----------------  setup ssl for eg level  ----------------
+
+mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o ComIbmJVMManager -n keystoreFile -v C:\Users\G01148539\Desktop\UnitTest\SoapUi_Certificates\IIB_Test\iib-keystore.jks
+mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o ComIbmJVMManager -n keystorePass -v BEMNG_Keystore::password
+    
+mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o ComIbmJVMManager -n truststoreFile -v C:\Users\G01148539\Desktop\UnitTest\SoapUi_Certificates\IIB_Test\BK_MQSS01XB_SIT_Truststore.jks
+mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o ComIbmJVMManager -n truststorePass -v BEMNG_Keystore::password
+
+mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o HTTPSConnector -n explicitlySetPortNumber -v 8840
+  
+mqsichangeproperties BEMNG_LOCAL -e RGS_GATEWAY -o HTTPSConnector -n clientAuth -v true
+  
+mqsistop BEMNG_LOCAL 
+mqsisetdbparms BEMNG_LOCAL -n BEMNG_Keystore::password -u ignore -p 12345
+mqsistart BEMNG_LOCAL 
+ 
+mqsireportproperties BEMNG_LOCAL -e RGS_GATEWAY -o ComIbmJVMManager -r
+
+mqsireportproperties BEMNG_LOCAL -e RGS_GATEWAY -o HTTPSConnector -r
+
+mqsireload BEMNG_LOCAL -e RGS_GATEWAY
+mqsisetdbparms BEMNG_LOCAL -n BEMDSN -u system -p system9
+
+----------------  setup jdbc service ----------------
+
+
+mqsicreateconfigurableservice BEMNG_LOCAL -c JDBCProviders -o BEMServiceAuthDB  -n connectionUrlFormat,connectionUrlFormatAttr1,description,jarsURL,jdbcProviderXASupport,portNumber,securityIdentity,serverName,type4DatasourceClassName,type4DriverClassName -v "jdbc:oracle:thin:[user]/[password]@[serverName]:[portNumber]/[connectionUrlFormatAttr1]","xe","BEMServiceAuthorizationSource","C:/ProgramData/IBM/MQSI/shared-classes","false","1521","AuthUserDetails","//localhost","oracle.jdbc.pool.OracleDataSource","oracle.jdbc.driver.OracleDriver"
+
+mqsisetdbparms BEMNG_LOCAL -n jdbc::AuthUserDetails -u system -p system9
+
+------------------  check server and MQ status ------------------
+
+ps -ef |grep bip 
+dspmq 
+
+------------------------------------
+
+mqsireportproperties BEMNG_LOCAL -c PolicySets -o AllReportableEntityNames -r
+mqsireportproperties BEMNG_LOCAL -c PolicySetBindings -o AllReportableEntityNames -r
+mqsireportproperties BEMNG_LOCAL -c PolicySetBindings -o POC_PolicyBindings -n ws-security -p C:\Users\G01148539\Desktop\IIM_10_Migration\WS\pocicyBinding.xml
